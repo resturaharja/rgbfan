@@ -1,0 +1,35 @@
+#summary The Original RGB Fan Controller
+#labels Featured
+
+= Introduction =
+
+The original RGB Fan Controller V1 is a single serial-interfaced fan controller with 4 RGB LEDs.  It runs at 19200 baud and is based on an Atmel AVR ATMega168 microcontroller.  The computer interface is written in C with the GTK+ libraries and is available for Windows and Linux.
+
+
+= Details =
+
+The controller board has 4 ports:
+
+Power Port - The power connector has +12, +5, and Ground and is meant to connect with a standard ATX molex connector.
+
+Serial Port - This 3-pin connector hooks to the PC side of the MAX232 serial level shifter.  The pinout is Gnd, Rx, Tx (looking from the top down with the MAX232's notch upwards).
+
+Fan Port - This 3-pin connector is where a 3-pin PC fan connects.  The left pin is Ground, the middle is +12 (power), and the right pin is RPM feedback signal (yellow or white on most fans).
+
+LED Port - This 16-pin connector connects the 4 RGB LED's.  From right to left: GND R1 G1 B1 GND R2 G2 B2 GND R3 G3 B3 GND R4 G4 B4.  The resistors are on the board so the LED's connect straight to this connector with wires, no extra resistors are needed.
+
+The protocol is fairly simple, every frame is 4 bytes:
+<0xAA> <CMD> <ARG> <0xFF>
+
+Commands:
+0x01 - Ping - Returns 0x72
+0x02 - Echo - Returns ARG
+0x03 - Save - Saves current LED and Fan state
+0x04 - Load - Loads and sets saved LED and Fan state
+0x11 - Set Fan Speed - Sets fan speed to ARG
+0x12 - Read Fan Speed - Returns fan speed
+0x13 - Read Fan RPM - Returns fan RPM (2 byte integer)
+
+0x21 to 0x2C - Set LED - Sets LED to ARG - LED's go from R1 to B4
+0x31 to 0x3C - Read LED - Returns LED value
+0x41 to 0x4C - Set Cross Fade - Sets value for LED crossfading

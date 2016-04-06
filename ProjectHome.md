@@ -1,0 +1,1 @@
+This is a PC fan controller that uses an Atmel AVR ATMega168 microcontroller to control fan speed as well as 4 RGB LED's that can make any color to form patterns.  It has RPM monitoring, a color fading system, an easy-to use PC interface, and the project is open-source.
